@@ -11,7 +11,7 @@ import sqlite3
 def setup(self):
     fn = '{0}_log.db'.format(self.config.host)
     self.log_db = os.path.join(os.path.expanduser('~/.phenny'), fn)
-    self.log_conn = sqlite3.connect(self.logger_db)
+    self.log_conn = sqlite3.connect(self.log_db)
 
     with self.log_conn:
 
