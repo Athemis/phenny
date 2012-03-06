@@ -22,3 +22,4 @@ Authors
 -------
 * Sean B. Palmer, http://inamidst.com/sbp/
 * mutantmonkey, http://mutantmonkey.in
+* Alexander R.M. Minges, http://athemis.de
