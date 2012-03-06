@@ -25,8 +25,8 @@ def setup(self):
     );''')
 
 def logger(phenny, input):
-    if not log.conn:
-        log.conn = sqlite3.connect(phenny.logger_db)
+    if not logger.conn:
+        logger.conn = sqlite3.connect(phenny.logger_db)
 
     sqlite_data = {
         'channel': input.sender,
@@ -39,7 +39,7 @@ def logger(phenny, input):
     if sqlite_data['msg'][:8] == '\x01ACTION ':
         sqlite_data['msg'] = '* {0} {1}'.format(sqlite_data['nick'], sqlite_data['msg'][8:-1])
 
-    c = log.conn.cursor()
+    c = logger.conn.cursor()
     c.execute('''insert or replace into lines_by_nick
                     (channel, nick, lines, characters, last_time, quote)
                     values(
@@ -56,16 +56,16 @@ def logger(phenny, input):
     c.close()
 
     if random.randint(0, 20) == 10:
-        c = log.conn.cursor()
+        c = logger.conn.cursor()
         c.execute('update lines_by_nick set quote=:msg where channel=:channel \
                 and nick=:nick', sqlite_data)
         c.close()
 
-    log.conn.commit()
-log.conn = None
-log.priority = 'low'
-log.rule = r'(.*)'
-log.thread = False
+    logger.conn.commit()
+logger.conn = None
+logger.priority = 'low'
+logger.rule = r'(.*)'
+logger.thread = False
 
 if __name__ == '__main__':
     print(__doc__.strip())
