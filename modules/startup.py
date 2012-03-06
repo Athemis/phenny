@@ -59,6 +59,7 @@ def startup(phenny, input):
     if hasattr(phenny.config, 'password'):
         if phenny.config.host.endswith('quakenet.org'):
             phenny.msg('Q@CServe.quakenet.org', 'AUTH %s %s' % (phenny.config.nick, phenny.config.password))
+            time.sleep(5)
         else:
             phenny.msg('NickServ', 'IDENTIFY %s' % phenny.config.password)
             time.sleep(5)
@@ -66,7 +67,8 @@ def startup(phenny, input):
     # Cf. http://swhack.com/logs/2005-12-05#T19-32-36
     for channel in phenny.channels: 
         phenny.write(('JOIN', channel))
-        time.sleep(0.5)
+        time.sleep(0.5)       
+        
 startup.rule = r'(.*)'
 startup.event = '251'
 startup.priority = 'low'
