@@ -116,8 +116,7 @@ def log_nick(phenny, input):
             'channel': input.sender,
             'nick': input.nick,
             'action': 'NICK',
-            'msg': input.group(1) }
-#            'msg': '{0} changed his/her nick'.format(input.nick) }
+            'msg': '{0} changed his/her nick'.format(input.nick) }
 
         write_db(log_join.conn, sqlite_data)
 log_nick.conn = None
