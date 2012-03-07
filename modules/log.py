@@ -34,6 +34,8 @@ def write_db(conn, sqlite_data):
             cur.execute('INSERT INTO Log VALUES(CURRENT_TIMESTAMP, ?, ?, ?, ?)', data)
 
 def log(phenny, input):
+    if not input.sender.startswith('#'): return # Stop here if channel is empty
+    
     if not log.conn:
         log.conn = sqlite3.connect(phenny.log_db)
 
@@ -47,11 +49,6 @@ def log(phenny, input):
         sqlite_data['msg'] = '* {0} {1}'.format(sqlite_data['nick'], sqlite_data['msg'][8:-1])
 
     write_db(log.conn, sqlite_data)
-#    with log.conn:
-#        cur = log.conn.cursor()
-
-#        data = (sqlite_data['channel'], sqlite_data['nick'], sqlite_data['msg'])
-#        cur.execute('INSERT INTO Log VALUES(CURRENT_TIMESTAMP, ?, ?, ?)', data)
 log.conn = None
 log.priority = 'low'
 log.rule = r'(.*)'
