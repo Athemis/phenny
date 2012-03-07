@@ -8,6 +8,8 @@ Licensed under the Eiffel Forum License 2.
 import os
 import sqlite3
 
+log_url = 'http://irclog.athemis.de'
+
 def setup(self):
     fn = '{0}_log.db'.format(self.config.host)
     self.log_db = os.path.join(os.path.expanduser('~/.phenny'), fn)
@@ -33,11 +35,11 @@ def write_db(conn, sqlite_data):
             data = (sqlite_data['channel'], sqlite_data['nick'], sqlite_data['action'], sqlite_data['msg'])
             cur.execute('INSERT INTO Log VALUES(CURRENT_TIMESTAMP, ?, ?, ?, ?)', data)
 
-def log(phenny, input):
-    if not input.sender.startswith('#'): return # Stop here if channel is empty
+def log_msg(phenny, input):
+#    if not input.sender.startswith('#'): return # Stop here if channel is empty
     
-    if not log.conn:
-        log.conn = sqlite3.connect(phenny.log_db)
+    if not log_msg.conn:
+        log_msg.conn = sqlite3.connect(phenny.log_db)
 
     sqlite_data = {
         'channel': input.sender,
@@ -48,11 +50,11 @@ def log(phenny, input):
     if sqlite_data['msg'][:8] == '\x01ACTION':
         sqlite_data['msg'] = '* {0} {1}'.format(sqlite_data['nick'], sqlite_data['msg'][8:-1])
 
-    write_db(log.conn, sqlite_data)
-log.conn = None
-log.priority = 'low'
-log.rule = r'(.*)'
-log.thread = False
+    write_db(log_msg.conn, sqlite_data)
+log_msg.conn = None
+log_msg.priority = 'low'
+log_msg.rule = r'(.*)'
+log_msg.thread = False
 
 def log_join(phenny, input):
     if not log_join.conn:
@@ -122,6 +124,10 @@ log_nick.event = 'NICK'
 log_nick.rule = r'.*'
 log_nick.thread = False
 
+def log(phenny, input):
+    phenny.reply('Today\'s log: {0}'.format(log_url))
+log.commands['log']
+log.priority = 'low'
 
 if __name__ == '__main__':
     print(__doc__.strip())
