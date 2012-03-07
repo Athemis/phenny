@@ -72,8 +72,8 @@ log_join.rule = r'.*'
 log_join.thread = False
 
 def log_quit(phenny, input):
-    if not log_join.conn:
-        log_join.conn = sqlite3.connect(phenny.log_db)
+    if not log_quit.conn:
+        log_quit.conn = sqlite3.connect(phenny.log_db)
 
         sqlite_data = {
             'channel': 'ALL',
@@ -81,7 +81,7 @@ def log_quit(phenny, input):
             'action': 'QUIT',
             'msg': '{0} quit'.format(input.nick) }
 
-        write_db(log_join.conn, sqlite_data)
+        write_db(log_quit.conn, sqlite_data)
 log_quit.conn = None
 log_quit.priority = 'low'	
 log_quit.event = 'QUIT'
@@ -89,8 +89,8 @@ log_quit.rule = r'.*'
 log_quit.thread = False
 
 def log_part(phenny, input):
-    if not log_join.conn:
-        log_join.conn = sqlite3.connect(phenny.log_db)
+    if not log_part.conn:
+        log_part.conn = sqlite3.connect(phenny.log_db)
 
         sqlite_data = {
             'channel': input.sender,
@@ -98,7 +98,7 @@ def log_part(phenny, input):
             'action': 'PART',
             'msg': '{0} parted {1}'.format(input.nick, input.sender) }
 
-        write_db(log_join.conn, sqlite_data)
+        write_db(log_part.conn, sqlite_data)
 log_part.conn = None
 log_part.priority = 'low'	
 log_part.event = 'PART'
@@ -106,8 +106,8 @@ log_part.rule = r'.*'
 log_part.thread = False
 
 def log_nick(phenny, input):
-    if not log_join.conn:
-        log_join.conn = sqlite3.connect(phenny.log_db)
+    if not log_nick.conn:
+        log_nick.conn = sqlite3.connect(phenny.log_db)
 
         sqlite_data = {
             'channel': 'ALL',
@@ -115,7 +115,7 @@ def log_nick(phenny, input):
             'action': 'NICK',
             'msg': '{0} changed his/her nick'.format(input.nick) }
 
-        write_db(log_join.conn, sqlite_data)
+        write_db(log_nickconn, sqlite_data)
 log_nick.conn = None
 log_nick.priority = 'low'	
 log_nick.event = 'NICK'
