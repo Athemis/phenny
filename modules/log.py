@@ -76,7 +76,7 @@ def log_quit(phenny, input):
         log_join.conn = sqlite3.connect(phenny.log_db)
 
         sqlite_data = {
-            'channel': input.sender,
+            'channel': 'ALL',
             'nick': input.nick,
             'action': 'QUIT',
             'msg': '{0} quit'.format(input.nick) }
@@ -110,7 +110,7 @@ def log_nick(phenny, input):
         log_join.conn = sqlite3.connect(phenny.log_db)
 
         sqlite_data = {
-            'channel': input.sender,
+            'channel': 'ALL',
             'nick': input.nick,
             'action': 'NICK',
             'msg': '{0} changed his/her nick'.format(input.nick) }
