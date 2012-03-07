@@ -115,7 +115,7 @@ def log_nick(phenny, input):
             'action': 'NICK',
             'msg': '{0} changed his/her nick'.format(input.nick) }
 
-        write_db(log_nickconn, sqlite_data)
+        write_db(log_nick.conn, sqlite_data)
 log_nick.conn = None
 log_nick.priority = 'low'	
 log_nick.event = 'NICK'
