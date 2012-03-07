@@ -39,9 +39,13 @@ def dumpReminders(fn, data):
     f = open(fn, 'w')
     for tellee in data.keys(): 
         for remindon in data[tellee]: 
-            line = '\t'.join((tellee,) + remindon)
-            try: f.write(line + '\n')
+            line = '\t'.join((tellee,) + remindon) + '\n'
+            try: f.write(line)
             except IOError: break
+            except UnicodeEncodeError:
+                line_encoded = line.encode('ascii', 'replace')
+                try: f.write(line_encoded.decode('ascii', 'ignore'))
+                except IOError: break
     try: f.close()
     except IOError: pass
     return True
