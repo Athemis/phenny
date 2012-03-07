@@ -46,7 +46,8 @@ def log_msg(phenny, input):
         'msg': input.group(1) }
 
     if sqlite_data['msg'].startswith('\x01ACTION'):
-        sqlite_data['msg'] = sqlite_data['msg'].replace('\x01', '') 
+        sqlite_data['msg'] = sqlite_data['msg'].replace('\x01', '')
+        sqlite_data['msg'] = sqlite_data['msg'].replace('ACTION', '')
         sqlite_data['action'] = 'ACTION'
 
     write_db(log_msg.conn, sqlite_data)
