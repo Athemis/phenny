@@ -96,7 +96,7 @@ def log_part(phenny, input):
             'channel': input.sender,
             'nick': input.nick,
             'action': 'PART',
-            'msg': '{0} parted {1}'.format(input.nick, input.sender) }
+            'msg': '{0} left {1}'.format(input.nick, input.sender) }
 
         write_db(log_part.conn, sqlite_data)
 log_part.conn = None
