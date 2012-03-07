@@ -10,7 +10,7 @@ http://inamidst.com/phenny/
 auth_list = []
 
 def auth_request(phenny, input):
-    if input.nick in phenny.config.admins
+    if input.nick in phenny.config.admins:
         phenny.write('WHOIS', input.nick)  
 auth_verify.rule = r'.*'
 auth_verify.priority = 'high'
