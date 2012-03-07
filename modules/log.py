@@ -68,7 +68,7 @@ def log_join(phenny, input):
 log_join.conn = None
 log_join.priority = 'low'	
 log_join.event = 'JOIN'
-log_join.rule r'.*'
+log_join.rule = r'.*'
 log_join.thread = False
 
 if __name__ == '__main__':
