@@ -45,8 +45,9 @@ def log_msg(phenny, input):
         'action': 'PRIVMSG',
         'msg': input.group(1) }
 
-    if sqlite_data['msg'][:8] == '\x01ACTION':
-        sqlite_data['msg'] = '* {0} {1}'.format(sqlite_data['nick'], sqlite_data['msg'][8:-1])
+    if sqlite_data['msg'].startswith('\x01ACTION'):
+        sqlite_data['msg'] = sqlite_data['msg'].replace('\x01', '') 
+        sqlite_data['action'] = 'ACTION'
 
     write_db(log_msg.conn, sqlite_data)
 log_msg.conn = None
