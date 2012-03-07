@@ -36,8 +36,6 @@ def write_db(conn, sqlite_data):
             cur.execute('INSERT INTO Log VALUES(CURRENT_TIMESTAMP, ?, ?, ?, ?)', data)
 
 def log_msg(phenny, input):
-#    if not input.sender.startswith('#'): return # Stop here if channel is empty
-    
     if not log_msg.conn:
         log_msg.conn = sqlite3.connect(phenny.log_db)
 
@@ -126,7 +124,7 @@ log_nick.thread = False
 
 def log(phenny, input):
     phenny.reply('Today\'s log: {0}'.format(log_url))
-log.commands['log']
+log.commands = ['log']
 log.priority = 'low'
 
 if __name__ == '__main__':
