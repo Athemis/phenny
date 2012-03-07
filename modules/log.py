@@ -61,7 +61,7 @@ def log_join(phenny, input):
 
         sqlite_data = {
             'channel': input.sender,
-            'nick': '',
+            'nick': '**JOIN**',
             'msg': '{0} joined {1}'.format(input.nick, input.sender) }
 
         write_db(log_join.conn, sqlite_data)
@@ -70,6 +70,38 @@ log_join.priority = 'low'
 log_join.event = 'JOIN'
 log_join.rule = r'.*'
 log_join.thread = False
+
+def log_quit(phenny, input):
+    if not log_join.conn:
+        log_join.conn = sqlite3.connect(phenny.log_db)
+
+        sqlite_data = {
+            'channel': input.sender,
+            'nick': '**QUIT**',
+            'msg': '{0} quit'.format(input.nick) }
+
+        write_db(log_join.conn, sqlite_data)
+log_quit.conn = None
+log_quit.priority = 'low'	
+log_quit.event = 'QUIT'
+log_quit.rule = r'.*'
+log_quit.thread = False
+
+def log_part(phenny, input):
+    if not log_join.conn:
+        log_join.conn = sqlite3.connect(phenny.log_db)
+
+        sqlite_data = {
+            'channel': input.sender,
+            'nick': '**PART**',
+            'msg': '{0} parted {1}'.format(input.nick, input.sender) }
+
+        write_db(log_join.conn, sqlite_data)
+log_part.conn = None
+log_part.priority = 'low'	
+log_part.event = 'PART'
+log_part.rule = r'.*'
+log_part.thread = False
 
 if __name__ == '__main__':
     print(__doc__.strip())
