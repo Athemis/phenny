@@ -12,8 +12,8 @@ auth_list = []
 def auth_request(phenny, input):
     if input.nick in phenny.config.admins:
         phenny.write('WHOIS', input.nick)  
-auth_verify.rule = r'.*'
-auth_verify.priority = 'high'
+auth_request.rule = r'.*'
+auth_request.priority = 'high'
 
 def auth_verify(phenny, input):
     global auth_list
