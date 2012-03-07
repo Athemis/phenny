@@ -7,6 +7,23 @@ Licensed under the Eiffel Forum License 2.
 http://inamidst.com/phenny/
 """
 
+auth_list = []
+
+def auth_request(phenny, input):
+    if input.nick in phenny.config.admins
+        phenny.write('WHOIS', input.nick)  
+auth_verify.rule = r'.*'
+auth_verify.priority = 'high'
+
+def auth_verify(phenny, input):
+    global auth_list
+    
+    nick = input.group(4)
+    auth_list.append(nick)
+    phenny.msg(nick, 'You have been verified as admin.')
+auth_verify.rule = r'is authed as.+'
+auth_verify.priority = 'high'
+
 def join(phenny, input): 
     """Join the specified channel. This is an admin-only command."""
     # Can only be done in privmsg by an admin
