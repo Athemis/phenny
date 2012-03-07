@@ -30,8 +30,8 @@ def write_db(conn, sqlite_data):
         with conn:
             cur = conn.cursor()
 
-            data = (sqlite_data['channel'], sqlite_data['nick'], sqlite_data['msg'])
-            cur.execute('INSERT INTO Log VALUES(CURRENT_TIMESTAMP, ?, ?, ?)', data)
+            data = (sqlite_data['channel'], sqlite_data['nick'], sqlite_data['action'], sqlite_data['msg'])
+            cur.execute('INSERT INTO Log VALUES(CURRENT_TIMESTAMP, ?, ?, ?, ?)', data)
 
 def log(phenny, input):
     if not log.conn:
