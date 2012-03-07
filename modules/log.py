@@ -108,5 +108,24 @@ log_part.event = 'PART'
 log_part.rule = r'.*'
 log_part.thread = False
 
+def log_nick(phenny, input):
+    if not log_join.conn:
+        log_join.conn = sqlite3.connect(phenny.log_db)
+
+        sqlite_data = {
+            'channel': input.sender,
+            'nick': input.nick,
+            'action': 'NICK',
+            'msg': input.group(1) }
+#            'msg': '{0} changed his/her nick'.format(input.nick) }
+
+        write_db(log_join.conn, sqlite_data)
+log_nick.conn = None
+log_nick.priority = 'low'	
+log_nick.event = 'NICK'
+log_nick.rule = r'.*'
+log_nick.thread = False
+
+
 if __name__ == '__main__':
     print(__doc__.strip())
