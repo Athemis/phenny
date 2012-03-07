@@ -25,7 +25,7 @@ def setup(self):
               
 def write_db(conn, sqlite_data):
 
-    if len(sqlite_data) == 3:
+    if len(sqlite_data) == 4:
   
         with conn:
             cur = conn.cursor()
