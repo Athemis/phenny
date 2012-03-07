@@ -40,7 +40,7 @@ def log(phenny, input):
     sqlite_data = {
         'channel': input.sender,
         'nick': input.nick,
-        'action': 'PRIVMSG';
+        'action': 'PRIVMSG',
         'msg': input.group(1) }
 
     if sqlite_data['msg'][:8] == '\x01ACTION':
@@ -64,7 +64,7 @@ def log_join(phenny, input):
         sqlite_data = {
             'channel': input.sender,
             'nick': input.nick,
-            'action': 'JOIN';
+            'action': 'JOIN',
             'msg': '{0} joined {1}'.format(input.nick, input.sender) }
 
         write_db(log_join.conn, sqlite_data)
@@ -81,7 +81,7 @@ def log_quit(phenny, input):
         sqlite_data = {
             'channel': input.sender,
             'nick': input.nick,
-            'action': 'QUIT';
+            'action': 'QUIT',
             'msg': '{0} quit'.format(input.nick) }
 
         write_db(log_join.conn, sqlite_data)
@@ -98,7 +98,7 @@ def log_part(phenny, input):
         sqlite_data = {
             'channel': input.sender,
             'nick': input.nick,
-            'action': 'PART';
+            'action': 'PART',
             'msg': '{0} parted {1}'.format(input.nick, input.sender) }
 
         write_db(log_join.conn, sqlite_data)
