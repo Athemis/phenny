@@ -54,7 +54,7 @@ def log_msg(phenny, input):
 log_msg.conn = None
 log_msg.priority = 'low'
 log_msg.rule = r'(.*)'
-log_msg.thread = False
+log_msg.thread = True
 
 def log_join(phenny, input):
     if not log_join.conn:
@@ -71,7 +71,7 @@ log_join.conn = None
 log_join.priority = 'low'	
 log_join.event = 'JOIN'
 log_join.rule = r'.*'
-log_join.thread = False
+log_join.thread = True
 
 def log_quit(phenny, input):
     if not log_quit.conn:
@@ -88,7 +88,7 @@ log_quit.conn = None
 log_quit.priority = 'low'	
 log_quit.event = 'QUIT'
 log_quit.rule = r'.*'
-log_quit.thread = False
+log_quit.thread = True
 
 def log_part(phenny, input):
     if not log_part.conn:
@@ -105,7 +105,7 @@ log_part.conn = None
 log_part.priority = 'low'	
 log_part.event = 'PART'
 log_part.rule = r'.*'
-log_part.thread = False
+log_part.thread = True
 
 def log_nick(phenny, input):
     if not log_nick.conn:
@@ -122,7 +122,7 @@ log_nick.conn = None
 log_nick.priority = 'low'	
 log_nick.event = 'NICK'
 log_nick.rule = r'.*'
-log_nick.thread = False
+log_nick.thread = True
 
 def log(phenny, input):
     phenny.reply('Today\'s log: {0}'.format(log_url))
