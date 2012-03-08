@@ -25,7 +25,7 @@ lispchannels = frozenset([ '#lisp', '#scheme', '#opendarwin', '#macdev',
 
 def loadReminders(fn): 
     result = {}
-    f = open(fn)
+    f = open(fn, encoding='utf-8')
     for line in f: 
         line = line.strip()
         if line: 
@@ -36,16 +36,12 @@ def loadReminders(fn):
     return result
 
 def dumpReminders(fn, data): 
-    f = open(fn, 'w')
+    f = open(fn, mode='w', encoding='utf-8')
     for tellee in data.keys(): 
         for remindon in data[tellee]: 
             line = '\t'.join((tellee,) + remindon) + '\n'
             try: f.write(line)
             except IOError: break
-            except UnicodeEncodeError:
-                line_encoded = line.encode('ascii', 'replace')
-                try: f.write(line_encoded.decode('ascii', 'ignore'))
-                except IOError: break
     try: f.close()
     except IOError: pass
     return True
@@ -54,7 +50,7 @@ def setup(self):
     fn = self.nick + '-' + self.config.host + '.tell.db'
     self.tell_filename = os.path.join(os.path.expanduser('~/.phenny'), fn)
     if not os.path.exists(self.tell_filename): 
-        try: f = open(self.tell_filename, 'w')
+        try: f = open(self.tell_filename, mode='w', encoding='utf-8')
         except OSError: pass
         else: 
             f.write('')
