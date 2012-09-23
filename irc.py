@@ -47,6 +47,11 @@ class Bot(asynchat.async_chat):
         import threading
         self.sending = threading.RLock()
 
+    def initiate_send(self):
+        self.sending.acquire()
+        asynchat.async_chat.initiate_send(self)
+        self.sending.release()
+
     # def push(self, *args, **kargs): 
     #     asynchat.async_chat.push(self, *args, **kargs)
 
@@ -198,12 +203,11 @@ class Bot(asynchat.async_chat):
         self.sending.release()
 
     def action(self, recipient, text):
-        text = "ACTION %s" % text
-        textu = chr(1) + text + chr(1)
-        return self.msg(recipient, textu)
+        text = "\x01ACTION {0}\x01".format(text)
+        return self.msg(recipient, text)
 
     def notice(self, dest, text): 
-        self.write((b'NOTICE', dest), text)
+        self.write(('NOTICE', dest), text)
 
     def error(self, origin): 
         try: 

@@ -5,11 +5,13 @@ author: mutantmonkey <mutantmonkey@mutantmonkey.in>, andreim <andreim@andreim.ne
 """
 
 from urllib.error import HTTPError
+from tools import GrumbleError
 import web
 import json
 
-def linx(phenny, input):
-    """.linx <url> - Upload a URL to linx.li."""
+
+def linx(phenny, input, short=False):
+    """.linx <url> - Upload a remote URL to linx.li."""
 
     url = input.group(2)
     if not url:
@@ -17,10 +19,9 @@ def linx(phenny, input):
         return
 
     try:
-        req = web.post("http://linx.li/vtluug", {'url': url})
+        req = web.post("http://linx.li/vtluug", {'url': url, 'short': short})
     except (HTTPError, IOError):
-        phenny.reply("THE INTERNET IS FUCKING BROKEN. Please try again later.")
-        return
+        raise GrumbleError("THE INTERNET IS FUCKING BROKEN. Please try again later.")
 
     data = json.loads(req)
     if len(data) <= 0 or not data['success']:
@@ -30,8 +31,14 @@ def linx(phenny, input):
     phenny.reply(data['url'])
 linx.rule = (['linx'], r'(.*)')
 
-if __name__ == '__main__':
-    print(__doc__.strip())
+
+def lnx(phenny, input):
+    """
+    same as .linx but returns a short url.
+    """
+    linx(phenny, input, True)
+lnx.rule = (['lnx'], r'(.*)')
+
 
 def lines(phenny, input):
     """.lines <nickname> (<today/yesterday/YYYYMMDD>) - Returns the number of lines a user posted on a specific date."""
@@ -54,14 +61,42 @@ def lines(phenny, input):
         date = "today"
 
     try:
-        req = web.post("http://linx.li/vtluuglines", {'nickname': nickname, 'date': date, 'sender': input.nick})
+        req = web.post("http://linx.li/vtluuglines", {'nickname': nickname, 'date': date, 'sender': input.nick, 'channel': input.sender})
     except (HTTPError, IOError):
-        phenny.reply("THE INTERNET IS FUCKING BROKEN. Please try again later.")
-        return
+        raise GrumbleError("THE INTERNET IS FUCKING BROKEN. Please try again later.")
 
     phenny.reply(req)
 
 lines.rule = (['lines'], r'(.*)')
+
+
+def posted(phenny, input):
+    """.posted <message> - Checks if <message> has already been posted."""
+
+    message = input.group(2)
+    if not message:
+        phenny.say(".posted <message> - Checks if <message> has already been posted.")
+        return
+
+    try:
+        req = web.post("http://linx.li/vtluugposted", {'message': message, 'sender': input.nick, 'channel': input.sender})
+    except (HTTPError, IOError):
+        raise GrumbleError("THE INTERNET IS FUCKING BROKEN. Please try again later.")
+
+    phenny.reply(req)
+
+posted.rule = (['posted'], r'(.*)')
+
+
+def check_posted_link(url, channel):
+    """ helper method for gettitle() """
+
+    try:
+        req = web.post("http://linx.li/vtluugpostedurl", {'url': url, 'channel': channel})
+    except:
+        req = ""
+
+    return req
 
 if __name__ == '__main__':
     print(__doc__.strip())

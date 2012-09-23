@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 """
-node-todo.py - node-todo uploader
+nodetodo.py - node-todo uploader
 author: mutantmonkey <mutantmonkey@mutantmonkey.in>
 author: telnoratti <calvin@winkowski.me>
 """
 
 from urllib.error import HTTPError
 from urllib import request
+from tools import GrumbleError
 import web
 import json
 
@@ -24,9 +25,8 @@ def xss(phenny, input):
     try:
         url = urlshortener(url)
     except (HTTPError, IOError):
-        phenny.reply("THE INTERNET IS FUCKING BROKEN. Please try again later.")
-        return
-    
+        raise GrumbleError("THE INTERNET IS FUCKING BROKEN. Please try again later.")
+
     phenny.reply(url)
 xss.rule = (['xss'], r'(.*)')
 
