@@ -15,7 +15,7 @@ from urllib.error import HTTPError
 from lxml import etree
 from datetime import datetime
 
-APIKEY = "b25b959554ed76058ac220b7b2e0a026"
+APIKEY = "f8f2a50033d7385e547fccbae92b2138"
 APIURL = "http://ws.audioscrobbler.com/2.0/?api_key="+APIKEY+"&"
 AEPURL = "http://www.davethemoonman.com/lastfm/aep.php?format=txt&username="
 
@@ -103,7 +103,7 @@ def now_playing(phenny, input):
         phenny.say("%s hasn't played anything recently. this isn't you? try lastfm-set" % (user))
         return
     tracks = list(recenttracks[0])
-    #print etree.tostring(recenttracks[0])
+    #print(etree.tostring(recenttracks[0]))
     if len(tracks) == 0:
         phenny.say("%s hasn't played anything recently. this isn't you? try lastfm-set" % (user))
         return
@@ -114,6 +114,7 @@ def now_playing(phenny, input):
         tags[e.tag] = e
 
     track = tags['name'].text.strip()
+
     artist = tags['artist'].text.strip()
 
     album = "unknown"

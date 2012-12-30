@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 bot.py - Phenny IRC Bot
 Copyright 2008, Sean B. Palmer, inamidst.com
@@ -220,7 +220,7 @@ class Phenny(irc.Bot):
             items = list(self.commands[priority].items())
             for regexp, funcs in items: 
                 for func in funcs: 
-                    if event != func.event: continue
+                    if event != func.event and func.event != '*': continue
 
                     match = regexp.match(text)
                     if match: 

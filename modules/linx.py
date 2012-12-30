@@ -1,13 +1,22 @@
 #!/usr/bin/python3
 """
 linx.py - linx.li tools
-author: mutantmonkey <mutantmonkey@mutantmonkey.in>, andreim <andreim@andreim.net>
+author: andreim <andreim@andreim.net>
+author: mutantmonkey <mutantmonkey@mutantmonkey.in>
 """
 
 from urllib.error import HTTPError
 from tools import GrumbleError
 import web
 import json
+
+
+def get_title(phenny, url, channel):
+    """ Have linx retrieve the (augmented) title """
+    try:
+        return web.post("http://linx.li/vtluuggettitle", {'url': url, 'channel': channel, 'api_key': phenny.config.linx_api_key})
+    except:
+        return
 
 
 def linx(phenny, input, short=False):
@@ -19,7 +28,7 @@ def linx(phenny, input, short=False):
         return
 
     try:
-        req = web.post("http://linx.li/vtluug", {'url': url, 'short': short})
+        req = web.post("http://linx.li/vtluug", {'url': url, 'short': short, 'api_key': phenny.config.linx_api_key})
     except (HTTPError, IOError):
         raise GrumbleError("THE INTERNET IS FUCKING BROKEN. Please try again later.")
 
@@ -61,7 +70,7 @@ def lines(phenny, input):
         date = "today"
 
     try:
-        req = web.post("http://linx.li/vtluuglines", {'nickname': nickname, 'date': date, 'sender': input.nick, 'channel': input.sender})
+        req = web.post("http://linx.li/vtluuglines", {'nickname': nickname, 'date': date, 'sender': input.nick, 'channel': input.sender, 'api_key': phenny.config.linx_api_key})
     except (HTTPError, IOError):
         raise GrumbleError("THE INTERNET IS FUCKING BROKEN. Please try again later.")
 
@@ -79,7 +88,7 @@ def posted(phenny, input):
         return
 
     try:
-        req = web.post("http://linx.li/vtluugposted", {'message': message, 'sender': input.nick, 'channel': input.sender})
+        req = web.post("http://linx.li/vtluugposted", {'message': message, 'sender': input.nick, 'channel': input.sender, 'api_key': phenny.config.linx_api_key})
     except (HTTPError, IOError):
         raise GrumbleError("THE INTERNET IS FUCKING BROKEN. Please try again later.")
 
@@ -87,16 +96,6 @@ def posted(phenny, input):
 
 posted.rule = (['posted'], r'(.*)')
 
-
-def check_posted_link(url, channel):
-    """ helper method for gettitle() """
-
-    try:
-        req = web.post("http://linx.li/vtluugpostedurl", {'url': url, 'channel': channel})
-    except:
-        req = ""
-
-    return req
 
 if __name__ == '__main__':
     print(__doc__.strip())
