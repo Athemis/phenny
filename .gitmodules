@@ -1,0 +1,3 @@
+[submodule "modules/mumble"]
+	path = modules/mumble
+	url = git://github.com/Athemis/Phenny-Mumble-Plugin.git
